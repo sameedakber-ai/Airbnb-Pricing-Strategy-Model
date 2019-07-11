@@ -30,13 +30,32 @@ def get_airbnb_data(city, data_to_fetch):
 
 
 def to_date_time(col):
-    col = pd.to_datetime(calendar[col])
-    return col
+    return pd.to_datetime(col)
 
 def to_numeric(col):
-    col = col.replace('[\$,]', '', regex=True).str.rstrip('.0').
-          astype(np.float)
-    return col
+    return col.replace('[\$\,\%]', '', regex=True).astype(np.float)
+
+def plot_time_series(dates, prices):
+    #create axes and figure
+    fig, ax = plt.subplots(figsize=(12,8)) 
+    ax.grid(True)
+
+    #Select x-tick locations and x_tick label formatting
+    year = mdates.YearLocator(month=1)    
+    month = mdates.MonthLocator(interval=2)
+    year_format = mdates.DateFormatter('%Y:%m')
+    month_format = mdates.DateFormatter('%m')
+
+    #Set x-ticks as selected above
+    ax.xaxis.set_minor_locator(month)
+    ax.xaxis.grid(True, which='minor')
+    ax.xaxis.set_major_locator(year)
+    ax.xaxis.set_major_formatter(year_format)
+
+    plt.plot(dates, prices, "-b")
+    plt.xlabel('time')
+    plt.ylabel('average listing price')
+
 
 def plot_geographical(latitude_list, longitude_list, distribution_1, distribution_2):
 
@@ -44,22 +63,18 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     Overly city geographical map with city listings scatter plot
 
     INPUT
-    lat_0 (float) - lower left corner latitude in geographical plot
-    lat_1 (float) - upper right corner latitude in geographical plot
-    lon_0 (float) - lower left corner longitude in geographical plot
-    lon_1 (float) - upper right corner longitude in geographical plot
-    lat (array, type float) - Latitude of listings
-    lon (array, type float) - Longitude of listings
-    price_distribution (array, type float) - Listing prices
-    activity_distribution (array, type float) - Number of listing reviews per month
+    latitude_list - latitudes of listings
+    longitude_list - longitudes of listings
+    distribution_1 - distribution of first feature
+    distribution_2 - distribution of second feature
     
     OUTPUT
     matplotlib.Baseplot object overlaid with scatter plt of listings
     """
-    lat_0 = latitude.min()
-    lat_1 = latitude.max()
-    lon_0 = longitude.min()
-    lon_1 = longitude.max()
+    lat_0 = latitude_list.min()
+    lat_1 = latitude_list.max()
+    lon_0 = longitude_list.min()
+    lon_1 = longitude_list.max()
 
     #Set up geographical map of Seattle by projecting actual map onto a cylindrical plane
     fig = plt.figure(figsize=(10,10))
@@ -73,17 +88,34 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     m.drawcounties(color='red', linewidth=1)
     
     #Produce scatter plot on top of Basemap
-    m.scatter(longitude, latitude, c=distribution_1, s=distribution_2*15, cmap='cividis', alpha=0.2)
+    m.scatter(longitude_list, latitude_list, c=distribution_1, s=distribution_2*15, cmap='cividis', alpha=0.2)
     
     plt.colorbar(label='price ($)')
-    price_quantile_95 = price_distribution.quantile(0.94)
-    plt.clim(0, price_quantile_99)
+    quantile_94 = distribution_1.quantile(0.94)
+    plt.clim(0, quantile_94)
     
     #Set up legend for activity distribution 
     for a in [1,3,5]:
         plt.scatter([], [], c='k', alpha=0.5, s=a*15, label=str(a)+' review(s) / month')
         
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='lower left')
-    
+
     plt.show()
 
+
+
+def drop_cols(df, max_unique_entries = 50, min_unique_entries=2):
+    """
+    INPUT
+    df - pandas dataframe
+    max_unique_entries - Drop any column that has unique entries more than max unique entries
+    min_unique_entries - Drop any column that contains only 1 unique 
+    entry
+    
+    OUTPUT
+    df - modified dataframe
+    """
+    for col in df.select_dtypes(include=['object']).columns:
+        if (df[col].unique().shape[0] > max_unique_entries) or (df[col].unique().shape[0] < min_unique_entries):
+            df.drop(col, axis=1, inplace=True)
+    return df
