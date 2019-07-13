@@ -25,3 +25,5 @@ The main findings are listed in the posy available [here](https://medium.com/@jo
 # Licensing, Authors and Acknowledgements
 
 No licenses required!!!
+
+There are main things to do here lol
