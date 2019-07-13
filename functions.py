@@ -79,8 +79,8 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     #Set up geographical map of Seattle by projecting actual map onto a cylindrical plane
     fig = plt.figure(figsize=(10,10))
     m = Basemap(projection='cyl', resolution='c', 
-                llcrnrlat=lat_0, urcrnrlat=lat_1,
-               llcrnrlon=lon_0, urcrnrlon=lon_1)
+                llcrnrlat=lat_0-0.05, urcrnrlat=lat_1+0.05,
+               llcrnrlon=lon_0-0.05, urcrnrlon=lon_1+0.05)
     
     #Draw Basemap by plotting coastlines, country lines and county lines 
     m.drawcoastlines(linewidth=1)    
