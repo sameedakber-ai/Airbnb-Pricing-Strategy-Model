@@ -1,7 +1,7 @@
 ## Table of Contents
 
-1. [installation][#Installation]
-2. [Project Motivation][#Project Motivation]
+1. [installation][#installation]
+2. [Project Motivation][#project-motivation]
 
 # Installation
 There should be no necessary libraries to install
