@@ -1,4 +1,6 @@
-<h style='text-align: center;'>## Table of Contents</h>
+<p align="center">
+## Table of Contents
+</p>
 
 1. [Installation](#installation)
 2. [Project Motivation](#project-motivation)
