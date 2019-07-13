@@ -4,7 +4,7 @@
 2. [Project Motivation](#project-motivation)
 3. [File Descriptions](#file-descriptions)
 4. [Results](#results)
-5. [Licensing, Authors and Acknowledgements](#licensing,-authors,-and-acknowledgements)
+5. [Licensing, Authors and Acknowledgements](#licensing-authors-and-acknowledgements)
 
 
 # Installation
@@ -32,7 +32,7 @@ There is an additional .py file containing functions used in the main notebook.
 
 # Results
 
-The main findings can be found in the posy available [here](https://medium.com/@josh_2774/how-do-you-become-a-developer-5ef1c1c68711)
+The main findings can be found in the post available [here](https://medium.com/@josh_2774/how-do-you-become-a-developer-5ef1c1c68711)
 
 # Licensing, Authors and Acknowledgements
 
