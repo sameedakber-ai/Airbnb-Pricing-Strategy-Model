@@ -8,6 +8,7 @@ from mpl_toolkits.basemap import Basemap
 import statsmodels.api as sm
 
 import os
+import math
 
 def get_airbnb_data(city, data_to_fetch):
 
@@ -101,6 +102,19 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='lower left')
 
     plt.show()
+
+
+def get_phi_score(confusion_matrix):
+    n = confusion_matrix.sum().sum()
+    row_totals = confusion_matrix.sum(axis=1)
+    column_totals = confusion_matrix.sum(axis=0)
+    # emp_array = np.empty(confusion_matrix.shape)
+    cum_sum = 0
+    for i in range(confusion_matrix.shape[0]):
+        for j in range(confusion_matrix.shape[1]):
+            temp = row_totals[i]*column_totals[j]/n
+            cum_sum+=(confusion_matrix.iloc[i,j]-temp)**2/temp
+    return math.sqrt(cum_sum/n)
 
 
 
