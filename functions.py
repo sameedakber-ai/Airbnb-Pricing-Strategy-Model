@@ -78,26 +78,28 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     lon_1 = longitude_list.max()
 
     #Set up geographical map of Seattle by projecting actual map onto a cylindrical plane
-    fig = plt.figure(figsize=(10,10))
+    fig = plt.gcf()
+    fig.set_size_inches(15, 12)
+
     m = Basemap(projection='cyl', resolution='c', 
                 llcrnrlat=lat_0-0.05, urcrnrlat=lat_1+0.05,
                llcrnrlon=lon_0-0.05, urcrnrlon=lon_1+0.05)
     
     #Draw Basemap by plotting coastlines, country lines and county lines 
-    m.drawcoastlines(linewidth=1)    
-    m.drawcountries(linewidth=1)
-    m.drawcounties(color='red', linewidth=1)
+    m.drawcoastlines(linewidth=0.5)    
+    m.drawcountries(linewidth=0.5)
+    m.drawcounties(color='red', linewidth=0.8)
     
     #Produce scatter plot on top of Basemap
-    m.scatter(longitude_list, latitude_list, c=distribution_1, s=distribution_2*15, cmap='cividis', alpha=0.2)
+    m.scatter(longitude_list, latitude_list, c=distribution_1, s=distribution_2*5, cmap='viridis', alpha=0.4)
     
     plt.colorbar(label='price ($)')
-    quantile_94 = distribution_1.quantile(0.94)
-    plt.clim(0, quantile_94)
+    quantile_98 = distribution_1.quantile(0.98)
+    plt.clim(0, quantile_98)
     
     #Set up legend for activity distribution 
-    for a in [1,3,5]:
-        plt.scatter([], [], c='k', alpha=0.5, s=a*15, label=str(a)+' review(s) / month')
+    for a in [2,4,6]:
+        plt.scatter([], [], c='k', alpha=0.5, s=a*5, label=str(a)+' accommodates')
         
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='lower left')
 
