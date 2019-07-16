@@ -31,7 +31,7 @@ There is an additional .py file containing functions used in the main notebook.
 
 # Results
 
-The main findings can be found in the post available [here](https://medium.com/@josh_2774/how-do-you-become-a-developer-5ef1c1c68711)
+The main findings can be found in the post available [here](https://medium.com/@sameedakber.ai/this-is-what-you-should-be-charging-as-a-host-on-airbnb-pricing-insights-from-data-b21d479847e)
 
 # Licensing, Authors and Acknowledgements
 
