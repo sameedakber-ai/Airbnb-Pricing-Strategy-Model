@@ -20,8 +20,7 @@ Airbnb is an online marketplace that provides accomodation sharing services to i
 
 1. How does the average daily listing price vary with time of year?
 2. What factors influence listing prices in Seattle?
-3. What (if any) influence does property type have on listing price?
-3. What (if any) influence does location and monthly activity have 	   on listing prices?
+3. What (if any) influence does location and monthly activity have on listing prices?
 4. How can a host set their listing price appropriately?
 
 # File Descriptions

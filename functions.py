@@ -36,10 +36,15 @@ def to_date_time(col):
 def to_numeric(col):
     return col.replace('[\$\,\%]', '', regex=True).astype(np.float)
 
-def plot_time_series(dates, prices):
+def plot_time_series(subplots):
     #create axes and figure
-    fig, ax = plt.subplots(figsize=(12,8)) 
-    ax.grid(True)
+    fig, ax = plt.subplots(subplots, figsize=(12,8)) 
+    if subplots==1:
+        ax.grid(True)
+    else:
+        for axis in ax:
+            axis.grid(True)
+
 
     #Select x-tick locations and x_tick label formatting
     year = mdates.YearLocator(month=1)    
@@ -47,18 +52,27 @@ def plot_time_series(dates, prices):
     year_format = mdates.DateFormatter('%Y:%m')
     month_format = mdates.DateFormatter('%m')
 
-    #Set x-ticks as selected above
-    ax.xaxis.set_minor_locator(month)
-    ax.xaxis.grid(True, which='minor')
-    ax.xaxis.set_major_locator(year)
-    ax.xaxis.set_major_formatter(year_format)
+    if subplots==1:
+        #Set x-ticks as selected above
+        ax.xaxis.set_minor_locator(month)
+        ax.xaxis.grid(True, which='minor')
+        ax.xaxis.set_major_locator(year)
+        ax.xaxis.set_major_formatter(year_format)
+    else:
+        for axis in ax:
+            #Set x-ticks as selected above
+            axis.xaxis.set_minor_locator(month)
+            axis.xaxis.grid(True, which='minor')
+            axis.xaxis.set_major_locator(year)
+            axis.xaxis.set_major_formatter(year_format)
 
-    plt.plot(dates, prices, "-b")
     plt.xlabel('time')
     plt.ylabel('average listing price')
 
+    return fig, ax
 
-def plot_geographical(latitude_list, longitude_list, distribution_1, distribution_2):
+
+def plot_geographical(latitude_list, longitude_list, distribution_1):
 
     """
     Overly city geographical map with city listings scatter plot
@@ -91,15 +105,15 @@ def plot_geographical(latitude_list, longitude_list, distribution_1, distributio
     m.drawcounties(color='red', linewidth=0.8)
     
     #Produce scatter plot on top of Basemap
-    m.scatter(longitude_list, latitude_list, c=distribution_1, s=distribution_2*5, cmap='viridis', alpha=0.4)
+    m.scatter(longitude_list, latitude_list, c=distribution_1, s=None, cmap='viridis', alpha=0.15)
     
-    plt.colorbar(label='price ($)')
+    plt.colorbar(label='price/bed ($)')
     quantile_98 = distribution_1.quantile(0.98)
     plt.clim(0, quantile_98)
     
     #Set up legend for activity distribution 
-    for a in [2,4,6]:
-        plt.scatter([], [], c='k', alpha=0.5, s=a*5, label=str(a)+' accommodates')
+    #for a in [2,4,6]:
+        #plt.scatter([], [], c='k', alpha=0.5, s=a*5, label=str(a)+' accommodates')
         
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='lower left')
 
