@@ -1,3 +1,4 @@
+# import libraries
 import pandas as pd
 import numpy as np
 
@@ -31,12 +32,41 @@ def get_airbnb_data(city, data_to_fetch):
 
 
 def to_date_time(col):
+    """
+    Convert string data to pandas's datetime format
+
+    INPUT
+    col - column to change type for
+
+    OUTPUT
+    modified col with changed format
+    """
     return pd.to_datetime(col)
 
 def to_numeric(col):
+    """
+    Convert data type from string to numeric
+
+    INPUT
+    col - Dataframe column to change type for
+    
+    OUTPUT
+    modified column with changed type
+    """
     return col.replace('[\$\,\%]', '', regex=True).astype(np.float)
 
 def plot_time_series(subplots):
+    """
+    Create a time series formatted plot figure and axes
+
+    INPUT:
+    subplots - specifies the number of subplots to create
+
+    OUTPUT
+    figure and axes for the formatted subplot(s)
+
+    
+    """
     #create axes and figure
     fig, ax = plt.subplots(subplots, figsize=(12,8)) 
     if subplots==1:
@@ -121,31 +151,22 @@ def plot_geographical(latitude_list, longitude_list, distribution_1):
 
 
 def get_phi_score(confusion_matrix):
+    """
+    calculate phi-score for two variables
+
+    INPUT
+    confusion_matrix - confusion matrix for two variables
+
+    OUTPUT
+    phi_score - phi score capped at a maximum value of 1.0
+    """
     n = confusion_matrix.sum().sum()
     row_totals = confusion_matrix.sum(axis=1)
     column_totals = confusion_matrix.sum(axis=0)
-    # emp_array = np.empty(confusion_matrix.shape)
+
     cum_sum = 0
     for i in range(confusion_matrix.shape[0]):
         for j in range(confusion_matrix.shape[1]):
             temp = row_totals[i]*column_totals[j]/n
             cum_sum+=(confusion_matrix.iloc[i,j]-temp)**2/temp
     return math.sqrt(cum_sum/n)
-
-
-
-def drop_cols(df, max_unique_entries = 50, min_unique_entries=2):
-    """
-    INPUT
-    df - pandas dataframe
-    max_unique_entries - Drop any column that has unique entries more than max unique entries
-    min_unique_entries - Drop any column that contains only 1 unique 
-    entry
-    
-    OUTPUT
-    df - modified dataframe
-    """
-    for col in df.select_dtypes(include=['object']).columns:
-        if (df[col].unique().shape[0] > max_unique_entries) or (df[col].unique().shape[0] < min_unique_entries):
-            df.drop(col, axis=1, inplace=True)
-    return df
