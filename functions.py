@@ -57,10 +57,10 @@ def to_numeric(col):
 
 def plot_time_series(subplots):
     """
-    Create a time series formatted plot figure and axes
+    Create figure and axes specifically formatted for a time series plot
 
     INPUT:
-    subplots - specifies the number of subplots to create
+    subplots - specifies the number of subplots (number of axes) to create
 
     OUTPUT
     figure and axes for the formatted subplot(s)
@@ -111,10 +111,9 @@ def plot_geographical(latitude_list, longitude_list, distribution_1):
     latitude_list - latitudes of listings
     longitude_list - longitudes of listings
     distribution_1 - distribution of first feature
-    distribution_2 - distribution of second feature
     
     OUTPUT
-    matplotlib.Baseplot object overlaid with scatter plt of listings
+    matplotlib.Baseplot object overlaid with scatter plot of listings
     """
     lat_0 = latitude_list.min()
     lat_1 = latitude_list.max()
@@ -140,10 +139,6 @@ def plot_geographical(latitude_list, longitude_list, distribution_1):
     plt.colorbar(label='price/bed ($)')
     quantile_98 = distribution_1.quantile(0.98)
     plt.clim(0, quantile_98)
-    
-    #Set up legend for activity distribution 
-    #for a in [2,4,6]:
-        #plt.scatter([], [], c='k', alpha=0.5, s=a*5, label=str(a)+' accommodates')
         
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, loc='lower left')
 
